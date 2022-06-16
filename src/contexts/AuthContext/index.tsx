@@ -25,17 +25,19 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
   const isAuthenticated: boolean = !!user;
 
   useEffect(() => {
-    const { COOKIE_NAME: token } = parseCookies();
+    const { [COOKIE_NAME]: token } = parseCookies();
 
-    if (token) {
-      recoverUserInformation()
-        .then((response) => {
-          setUser(response.user);
-        })
-        .catch(() => {
-          signOut();
-        });
+    if (!token) {
+      Router.push(route.LOGIN);
     }
+
+    recoverUserInformation(token)
+      .then((response) => {
+        setUser(response.user);
+      })
+      .catch(() => {
+        signOut();
+      });
   }, []);
 
   async function signIn({ email, password }: SignInData) {
@@ -53,13 +55,15 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
 
     setUser(user);
 
+    console.log("indo pro dashboard");
+
     Router.push(route.DASHBOARD);
   }
 
   async function signOut() {
     setCookie(undefined, COOKIE_NAME, "", { maxAge: 0 });
     setUser(null);
-    Router.push(route.HOME);
+    Router.push(route.LOGIN);
   }
 
   return (
