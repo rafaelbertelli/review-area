@@ -6,8 +6,8 @@ interface CommonHeaderProperties extends HeadersDefaults {
 }
 
 export function getAPIClient(ctx?: any): AxiosInstance {
-  const COOKIE_NAME = "reviewarea.token";
-  const { [COOKIE_NAME]: token } = parseCookies(ctx);
+  const COOKIE = process.env.NEXT_PUBLIC_COOKIE_NAME as string;
+  const { [COOKIE]: token } = parseCookies(ctx);
 
   /**
    * call ML API domain

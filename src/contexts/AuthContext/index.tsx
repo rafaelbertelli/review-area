@@ -24,11 +24,11 @@ export const AuthContext: Context<AuthContextType> = createContext(
 export const AuthProvider = ({ children }: ChildrenProps) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const COOKIE_NAME = "reviewarea.token";
   const isAuthenticated: boolean = !!user;
+  const COOKIE = process.env.NEXT_PUBLIC_COOKIE_NAME as string;
 
   useEffect(() => {
-    const { [COOKIE_NAME]: token } = parseCookies();
+    const { [COOKIE]: token } = parseCookies();
 
     if (!token) {
       Router.push(route.LOGIN);
@@ -49,8 +49,9 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
     const { token, user } = await signInRequest({ email, password }); // call my simulated backend
 
     const ONE_HOUR = 60 * 60 * 1;
+    const COOKIE = process.env.NEXT_PUBLIC_COOKIE_NAME as string;
 
-    setCookie(undefined, COOKIE_NAME, token, { maxAge: ONE_HOUR });
+    setCookie(undefined, COOKIE, token, { maxAge: ONE_HOUR });
 
     api.defaults.headers = {
       Authorization: `Bearer ${token}`,
@@ -62,7 +63,7 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
   }
 
   async function signOut() {
-    setCookie(undefined, COOKIE_NAME, "", { maxAge: 0 });
+    setCookie(undefined, COOKIE, "", { maxAge: 0 });
     setUser(null);
     Router.push(route.LOGIN);
   }
