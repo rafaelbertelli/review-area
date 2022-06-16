@@ -3,7 +3,10 @@ import { parseCookies, setCookie } from "nookies";
 import { Context, createContext, useEffect, useState } from "react";
 
 import { api } from "../../services/api";
-import { recoverUserInformation, signInRequest } from "../../services/auth";
+import {
+  recoverUserInformation,
+  signInRequest,
+} from "../../services/backend-auth/auth";
 import route from "../../utils/routes";
 
 import {
@@ -54,8 +57,6 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
     } as CommonHeaderProperties;
 
     setUser(user);
-
-    console.log("indo pro dashboard");
 
     Router.push(route.DASHBOARD);
   }
