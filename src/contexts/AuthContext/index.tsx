@@ -28,9 +28,13 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
     const { COOKIE_NAME: token } = parseCookies();
 
     if (token) {
-      recoverUserInformation().then((response) => {
-        setUser(response.user);
-      });
+      recoverUserInformation()
+        .then((response) => {
+          setUser(response.user);
+        })
+        .catch(() => {
+          signOut();
+        });
     }
   }, []);
 
@@ -50,6 +54,12 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
     setUser(user);
 
     Router.push(route.DASHBOARD);
+  }
+
+  async function signOut() {
+    setCookie(undefined, COOKIE_NAME, "", { maxAge: 0 });
+    setUser(null);
+    Router.push(route.HOME);
   }
 
   return (
