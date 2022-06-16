@@ -1,4 +1,5 @@
 const route = {
+  HOME: "/",
   DASHBOARD: "/dashboard",
 };
 
