@@ -1,6 +1,6 @@
 const route = {
   DASHBOARD: "/dashboard",
-  HOME: "/",
+  HOME: "/login",
   LOGIN: "/login",
 };
 
