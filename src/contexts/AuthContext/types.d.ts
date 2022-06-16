@@ -20,6 +20,7 @@ export type AuthContextType = {
   user: User | null;
   isAuthenticated: boolean;
   signIn: (data: SignInData) => Promise<void>;
+  signOut: () => void;
 };
 
 export type ChildrenProps = {
