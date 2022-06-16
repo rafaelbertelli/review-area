@@ -22,6 +22,10 @@ export async function signInRequest(
 ): Promise<SignInResponse> {
   await delay();
 
+  /**
+   * I am just by passing data to simulate backend validation
+   */
+
   return {
     token: uuid(),
     user: {
@@ -35,10 +39,15 @@ export async function signInRequest(
 export async function recoverUserInformation() {
   await delay();
 
+  /**
+   * I should have received user token, and maybe its email, or some data
+   * to find it in the database, but I am returning a fake user
+   */
+
   return {
     user: {
-      name: "",
-      email: "",
+      name: "Rafael",
+      email: "rafaelbertelli89@gmail.com",
       avatar_url: getAvatar(),
     },
   };
