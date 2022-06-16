@@ -36,7 +36,9 @@ export async function signInRequest(
   };
 }
 
-export async function recoverUserInformation() {
+export async function recoverUserInformation(
+  token: string
+): Promise<SignInResponse> {
   await delay();
 
   /**
@@ -45,6 +47,7 @@ export async function recoverUserInformation() {
    */
 
   return {
+    token,
     user: {
       name: "Rafael",
       email: "rafaelbertelli89@gmail.com",
