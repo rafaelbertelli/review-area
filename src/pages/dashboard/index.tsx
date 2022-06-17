@@ -1,12 +1,18 @@
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
+import { getAPIClient } from "../../@seedwork/apiClient/config/axios";
 import DashboardComponent from "../../components/Dashboard";
 import Sidebar from "../../components/Sidebar";
+import apiRoute from "../../utils/apiRoutes";
 
-export default function Dashboard() {
+type DashboardProps = {
+  categories?: any;
+};
+
+export default function Dashboard({ categories }: DashboardProps) {
   return (
     <div className="flex flex-row min-h-screen bg-gray-100 text-gray-800">
-      <Sidebar />
+      <Sidebar categories={categories} />
       <DashboardComponent />
     </div>
   );
@@ -25,7 +31,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
+  const api = getAPIClient(ctx);
+  const categories = await api.get(apiRoute.CATEGORIES);
+
   return {
-    props: {},
+    props: {
+      categories: categories.data,
+    },
   };
 };
