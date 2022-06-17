@@ -1,8 +1,8 @@
 import Router from "next/router";
 import { parseCookies, setCookie } from "nookies";
 import { Context, createContext, useEffect, useState } from "react";
+import { api } from "../../@seedwork/apiClient/api";
 
-import { api } from "../../services/api";
 import {
   recoverUserInformation,
   signInRequest,

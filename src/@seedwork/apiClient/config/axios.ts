@@ -13,7 +13,12 @@ export function getAPIClient(ctx?: any): AxiosInstance {
    * call ML API domain
    */
   const api = axios.create({
-    baseURL: "http://localhost:3333",
+    baseURL: "http://localhost:3000/api",
+  });
+
+  api.interceptors.request.use((config) => {
+    console.log("[request interceptor]:", config);
+    return config;
   });
 
   if (token) {
