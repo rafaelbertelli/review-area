@@ -1,9 +1,26 @@
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 import Login from "../../components/Login";
 
 export default function Home() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Login />
-    </div>
-  );
+  return <Login />;
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const COOKIE = process.env.NEXT_PUBLIC_COOKIE_NAME as string;
+  const { [COOKIE]: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      props: {},
+    };
+  }
+
+  return {
+    props: {},
+    redirect: {
+      destination: "/dashboard",
+      permanent: false,
+    },
+  };
+};
