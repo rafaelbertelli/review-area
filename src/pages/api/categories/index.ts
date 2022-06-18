@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { CategoryProps } from "../../../@seedwork/domain/Category/type";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,6 +9,7 @@ export default async function handler(
   return axios
     .get("https://api.mercadolibre.com/sites/MLB/categories")
     .then((response) => {
-      res.status(200).json({ data: response.data });
+      const categories: CategoryProps[] = response.data;
+      res.status(200).json({ categories });
     });
 }
