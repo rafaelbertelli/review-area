@@ -3,11 +3,11 @@ import { parseCookies, setCookie } from "nookies";
 import { Context, createContext, useEffect, useState } from "react";
 import { api } from "../../@seedwork/apiClient/api";
 
+import appRoute from "../../@seedwork/routes/appRoutes";
 import {
   recoverUserInformation,
   signInRequest,
 } from "../../services/backend-auth/auth";
-import route from "../../utils/routes";
 
 import {
   AuthContextType,
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
     const { [COOKIE]: token } = parseCookies();
 
     if (!token) {
-      Router.push(route.LOGIN);
+      Router.push(appRoute.LOGIN);
     }
 
     recoverUserInformation(token)
@@ -59,13 +59,13 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
 
     setUser(user);
 
-    Router.push(route.DASHBOARD);
+    Router.push(appRoute.DASHBOARD);
   }
 
   async function signOut() {
     setCookie(undefined, COOKIE, "", { maxAge: 0 });
     setUser(null);
-    Router.push(route.LOGIN);
+    Router.push(appRoute.LOGIN);
   }
 
   return (
