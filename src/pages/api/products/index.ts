@@ -5,10 +5,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  return axios
-    .get("https://api.mercadolibre.com/sites/MLB/search?category=MLB5672")
-    .then((response) => {
-      const products = response.data;
-      res.status(200).json({ products });
-    });
+  let { category = "MLB5672" } = req.query;
+
+  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/${process.env.NEXT_PUBLIC_API_URL_I18N}`;
+  const url = `${BASE_URL}/search?category=${category}`;
+
+  return axios.get(url).then((response) => {
+    const products = response.data;
+    res.status(200).json({ products });
+  });
 }

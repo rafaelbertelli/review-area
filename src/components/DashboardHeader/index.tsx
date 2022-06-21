@@ -7,12 +7,16 @@ type DashboardHeaderProps = {
   searchBy: (term: string) => void;
 };
 
+type FormProps = {
+  search: string;
+};
+
 export default function DashboardHeader({ searchBy }: DashboardHeaderProps) {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<FormProps>();
 
   const { user } = useContext(AuthContext);
 
-  const handleSearch = ({ search }: { search: string }): void => {
+  const handleSearch = ({ search }: FormProps): void => {
     searchBy(search);
   };
 

@@ -7,7 +7,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { SignInProps } from "./types";
 
 export default function Home() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<SignInProps>();
   const { signIn } = useContext(AuthContext);
 
   async function handleSignIn(data: SignInProps): Promise<void> {

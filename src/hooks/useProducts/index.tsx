@@ -5,7 +5,11 @@ import safeURI from "../../@seedwork/apiClient/safe-uri";
 import { ProductUiProps } from "../../@seedwork/domain/Product/type";
 import apiRoute from "../../@seedwork/routes/apiRoutes";
 
-export default function useProducts() {
+export default function useProducts(): [
+  ProductUiProps[],
+  () => Promise<void>,
+  (term: string) => Promise<void>
+] {
   const [products, setProducts] = useState([]);
 
   const getProducts = async (): Promise<void> => {
@@ -21,7 +25,7 @@ export default function useProducts() {
     return Promise.resolve();
   };
 
-  const productUiMapper = (product: any): ProductUiProps => {
+  const productUiMapper = (product: ProductUiProps): ProductUiProps => {
     return {
       id: product.id,
       title: product.title,
