@@ -5,14 +5,13 @@ import { faStar as filledStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ProductUiProps } from "../../@seedwork/domain/Product/type";
 
+type OnChangeProps = {
+  ratingValue: number;
+  product: ProductUiProps;
+};
+
 type RatingProps = {
-  onChange: ({
-    ratingValue,
-    product,
-  }: {
-    ratingValue: number;
-    product: ProductUiProps;
-  }) => void;
+  onChange: (props: OnChangeProps) => void;
   product: ProductUiProps;
 };
 
