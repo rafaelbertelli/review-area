@@ -1,21 +1,32 @@
-import { useEffect } from "react";
-import { api } from "../../@seedwork/apiClient/api";
-import safeURI from "../../@seedwork/apiClient/safe-uri";
-import apiRoute from "../../@seedwork/routes/apiRoutes";
-import DashboardHeader from "../DashboardHeader";
-import useProducts from "../../hooks/useProducts";
-import { ProductUiProps } from "../../@seedwork/domain/Product/type";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+import { ProductUiProps } from "../../@seedwork/domain/Product/type";
+import useProducts from "../../hooks/useProducts";
+import DashboardHeader from "../DashboardHeader";
+import Rating from "../Rating";
 
 export default function Dashboard() {
-  const [products, pagination, getProducts] = useProducts();
+  const [products, getProducts, searchProducts] = useProducts();
+  const [favoriteProducts, setFavoriteProducts] = useState<ProductUiProps[]>(
+    []
+  );
 
-  const search = async (term: string) => {
-    const response = await api.get(
-      `${apiRoute.PRODUCTS_SEARCH}?term=${safeURI(term)}`
-    );
-    console.log("response", response);
+  const setFavoriteProduct = (product: ProductUiProps) => {
+    const newFavoriteProducts = [...favoriteProducts];
+    const index = newFavoriteProducts.findIndex((p) => p.id === product.id);
+
+    if (index === -1) {
+      newFavoriteProducts.push(product);
+    } else {
+      newFavoriteProducts.splice(index, 1);
+    }
+    setFavoriteProducts(newFavoriteProducts);
   };
+
+  function handleRatingProduct(ratingValue: number) {
+    console.log(ratingValue);
+  }
 
   useEffect(() => {
     const _getProducts = async () => await getProducts();
@@ -24,18 +35,26 @@ export default function Dashboard() {
 
   return (
     <main className="main flex flex-col flex-grow -ml-64 md:ml-0 transition-all duration-150 ease-in">
-      <DashboardHeader searchBy={search} />
+      <DashboardHeader searchBy={searchProducts} />
       <div className="main-content flex flex-col flex-grow p-4">
         <h1 className="font-bold text-2xl text-gray-700">Dashboard</h1>
 
         <div className="flex flex-col flex-grow items-center bg-white rounded-xl mt-4 p-4">
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {products.map((product: ProductUiProps) => {
+              const checkedProduct = favoriteProducts.some(
+                (p) => p.id === product.id
+              );
+
               return (
                 <div
                   key={product.id}
                   className="max-w-sm overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl"
                 >
+                  <div className="flex justify-center pt-4 pb-1">
+                    <Rating onChange={handleRatingProduct} />
+                  </div>
+
                   <img
                     src={product.thumbnail}
                     alt={product.title}
@@ -46,13 +65,25 @@ export default function Dashboard() {
                       {product.title}
                     </p>
                     <Link href={product.permalink}>
-                      <a className="text-blue-500 hover:text-blue-700">
+                      <a
+                        target={"_blank"}
+                        className="text-blue-500 hover:text-blue-700"
+                      >
                         Ver produto
                       </a>
                     </Link>
-                    {/* <button className="w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75">
-                      See More
-                    </button> */}
+
+                    <div className="form-check">
+                      <label className="form-check-label inline-block text-gray-800 cursor-pointer">
+                        <input
+                          className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                          type="checkbox"
+                          checked={checkedProduct}
+                          onChange={() => setFavoriteProduct(product)}
+                        />
+                        {checkedProduct ? "Favorito" : "Add aos favoritos"}
+                      </label>
+                    </div>
                   </div>
                 </div>
               );
