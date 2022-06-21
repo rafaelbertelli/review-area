@@ -10,15 +10,17 @@ type RatingProps = {
   ratingValue: number;
 };
 
-export default function useProducts(): [
-  ProductUiProps[],
-  ProductUiProps[],
-  () => Promise<void>,
-  (term: string) => Promise<void>,
-  (product: ProductUiProps) => void,
-  (props: RatingProps) => void
-] {
-  const [products, setProducts] = useState([]);
+type UseProductsProps = {
+  products: ProductUiProps[];
+  favoriteProducts: ProductUiProps[];
+  getProducts: () => Promise<void>;
+  searchProducts: (term: string) => Promise<void>;
+  setFavoriteProduct: (product: ProductUiProps) => void;
+  handleRatingProduct: (props: RatingProps) => void;
+};
+
+export default function useProducts(): UseProductsProps {
+  const [products, setProducts] = useState<ProductUiProps[]>([]);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductUiProps[]>(
     []
   );
@@ -72,12 +74,12 @@ export default function useProducts(): [
     };
   };
 
-  return [
+  return {
     products,
     favoriteProducts,
     getProducts,
     searchProducts,
     setFavoriteProduct,
     handleRatingProduct,
-  ];
+  };
 }
