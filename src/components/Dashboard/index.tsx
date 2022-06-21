@@ -7,26 +7,14 @@ import DashboardHeader from "../DashboardHeader";
 import Rating from "../Rating";
 
 export default function Dashboard() {
-  const [products, getProducts, searchProducts] = useProducts();
-  const [favoriteProducts, setFavoriteProducts] = useState<ProductUiProps[]>(
-    []
-  );
-
-  const setFavoriteProduct = (product: ProductUiProps) => {
-    const newFavoriteProducts = [...favoriteProducts];
-    const index = newFavoriteProducts.findIndex((p) => p.id === product.id);
-
-    if (index === -1) {
-      newFavoriteProducts.push(product);
-    } else {
-      newFavoriteProducts.splice(index, 1);
-    }
-    setFavoriteProducts(newFavoriteProducts);
-  };
-
-  function handleRatingProduct(ratingValue: number) {
-    console.log(ratingValue);
-  }
+  const [
+    products,
+    favoriteProducts,
+    getProducts,
+    searchProducts,
+    setFavoriteProduct,
+    handleRatingProduct,
+  ] = useProducts();
 
   useEffect(() => {
     const _getProducts = async () => await getProducts();
@@ -52,26 +40,26 @@ export default function Dashboard() {
                   className="max-w-sm overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl"
                 >
                   <div className="flex justify-center pt-4 pb-1">
-                    <Rating onChange={handleRatingProduct} />
+                    <Rating onChange={handleRatingProduct} product={product} />
                   </div>
 
-                  <img
-                    src={product.thumbnail}
-                    alt={product.title}
-                    className="h-auto w-full"
-                  />
+                  <Link href={product.permalink}>
+                    <a
+                      target={"_blank"}
+                      className="text-blue-500 hover:text-blue-700"
+                    >
+                      <img
+                        src={product.thumbnail}
+                        alt={product.title}
+                        className="h-auto w-full"
+                      />
+                    </a>
+                  </Link>
+
                   <div className="p-5">
                     <p className="text-medium mb-5 text-gray-700">
                       {product.title}
                     </p>
-                    <Link href={product.permalink}>
-                      <a
-                        target={"_blank"}
-                        className="text-blue-500 hover:text-blue-700"
-                      >
-                        Ver produto
-                      </a>
-                    </Link>
 
                     <div className="form-check">
                       <label className="form-check-label inline-block text-gray-800 cursor-pointer">
@@ -81,7 +69,7 @@ export default function Dashboard() {
                           checked={checkedProduct}
                           onChange={() => setFavoriteProduct(product)}
                         />
-                        {checkedProduct ? "Favorito" : "Add aos favoritos"}
+                        {checkedProduct ? "Favorito" : "Favoritar"}
                       </label>
                     </div>
                   </div>

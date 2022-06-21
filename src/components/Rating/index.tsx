@@ -3,21 +3,28 @@ import { useState } from "react";
 import { faStar as unfilledStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as filledStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ProductUiProps } from "../../@seedwork/domain/Product/type";
 
 type RatingProps = {
-  onChange: (ratingValue: number) => void;
+  onChange: ({
+    ratingValue,
+    product,
+  }: {
+    ratingValue: number;
+    product: ProductUiProps;
+  }) => void;
+  product: ProductUiProps;
 };
 
-const Rating = (props: RatingProps) => {
-  const { onChange } = props;
+const Rating = ({ onChange, product }: RatingProps) => {
   const [amountRatingsAllowed] = useState([1, 2, 3, 4, 5]);
   const [hoveredStar, setHoveredStar] = useState(0);
   const [ratingValue, setRatingValue] = useState(0);
 
-  function handleRatingClick(ratingNumber: number) {
+  const handleRatingClick = (ratingNumber: number) => {
     setRatingValue(ratingNumber);
-    onChange && onChange(ratingNumber);
-  }
+    onChange({ ratingValue: ratingNumber, product });
+  };
 
   return (
     <div onMouseLeave={() => setHoveredStar(0)}>
