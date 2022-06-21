@@ -12,6 +12,11 @@
     "test:cov": "jest --coverage"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-regular-svg-icons": "^5.15.2",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@heroicons/react": "^1.0.6",
     "axios": "^0.27.2",
     "next": "12.1.6",
