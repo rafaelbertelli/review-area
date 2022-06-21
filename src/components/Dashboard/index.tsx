@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { ProductUiProps } from "../../@seedwork/domain/Product/type";
 import useProducts from "../../hooks/useProducts";
@@ -7,14 +7,14 @@ import DashboardHeader from "../DashboardHeader";
 import Rating from "../Rating";
 
 export default function Dashboard() {
-  const [
+  const {
     products,
     favoriteProducts,
     getProducts,
     searchProducts,
     setFavoriteProduct,
     handleRatingProduct,
-  ] = useProducts();
+  } = useProducts();
 
   useEffect(() => {
     const _getProducts = async () => await getProducts();
@@ -37,7 +37,7 @@ export default function Dashboard() {
               return (
                 <div
                   key={product.id}
-                  className="max-w-sm overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl"
+                  className="max-w-[300px] overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl"
                 >
                   <div className="flex justify-center pt-4 pb-1">
                     <Rating onChange={handleRatingProduct} product={product} />
