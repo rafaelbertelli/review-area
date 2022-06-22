@@ -1,7 +1,25 @@
 # Review Area
 
 This project consists in handle with a simulated login service and render a dashboard with some products from an API.
-It is capable of rating and favorite any items at the session time.
+It is capable of:
+
+* Login with a random email and password
+* Render a sidebar
+* Render products from a default api call
+* Search by typing a term
+* Set product as Favourite
+* Rate product
+* Logout
+
+Technically it is divided into
+
+* Pages
+* Components
+* Hooks
+* Context
+* Api
+* Seedwork to share content
+* Unit tests (some)
 
 ## Getting Started
 
