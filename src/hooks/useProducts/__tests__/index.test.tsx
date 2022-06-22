@@ -4,7 +4,7 @@ import { act } from "react-dom/test-utils";
 import useProducts from "..";
 import { api } from "../../../@seedwork/apiClient/api";
 
-import { mockGetProductsResult, mockSearchProductsResult } from "./mock";
+import { mockGetProductsResult, mockSearchProductsResult } from "../__mocks__";
 
 describe("useProducts", () => {
   it("should start with empty products list", () => {
