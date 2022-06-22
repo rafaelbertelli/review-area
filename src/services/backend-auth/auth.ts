@@ -1,5 +1,6 @@
 import { AvatarGenerator } from "random-avatar-generator";
 import { v4 as uuid } from "uuid";
+import { faker } from "@faker-js/faker";
 
 import { SignInRequestData, SignInResponse } from "./types";
 
@@ -15,7 +16,7 @@ export async function signInRequest(
   return {
     token: uuid(),
     user: {
-      name: data.email,
+      name: faker.name.findName(),
       email: data.email,
       avatar_url: getAvatar(),
     },
@@ -35,8 +36,8 @@ export async function recoverUserInformation(
   return {
     token,
     user: {
-      name: "Rafael",
-      email: "rafaelbertelli89@gmail.com",
+      name: faker.name.findName(),
+      email: faker.internet.email(),
       avatar_url: getAvatar(),
     },
   };
